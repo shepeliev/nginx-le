@@ -1,0 +1,40 @@
+version: '3.3'
+services:
+
+    nginx:
+        image: shepeliev/nginx-le:latest
+        hostname: nginx
+        restart: always
+
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+
+        volumes:
+            - ./etc/ssl:/etc/nginx/ssl
+            - ./etc/letsencrypt:/etc/letsencrypt
+        ports:
+            - "80:80"
+            - "443:443"
+
+        environment:
+            - TZ=America/Chicago
+            - LETSENCRYPT=true
+            - LE_EMAIL=name@example.com
+            - LE_FQDN=www.example.com
+            #- SSL_CERT=le-crt.pem
+            #- SSL_KEY=le-key.pem
+            #- SSL_CHAIN_CERT=le-chain-crt.pem
+        configs:
+            - source: service_conf
+              target: /etc/nginx/service.conf
+            # - source: service_conf_2
+            #   target: /etc/nginx/service-2.conf
+
+configs:
+    service_conf:
+        file: ./etc/service-example.conf
+    # service_conf_2:
+    #     file: ./etc/service-example-2.conf
