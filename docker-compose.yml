@@ -3,7 +3,7 @@ services:
 
     nginx:
         build: .
-        image: umputun/nginx-le:latest
+        image: shepeliev/nginx-le:latest
         hostname: nginx
         restart: always
         container_name: nginx
@@ -27,6 +27,3 @@ services:
             - LETSENCRYPT=true
             - LE_EMAIL=name@example.com
             - LE_FQDN=www.example.com
-            #- SSL_CERT=le-crt.pem
-            #- SSL_KEY=le-key.pem
-            #- SSL_CHAIN_CERT=le-chain-crt.pem
