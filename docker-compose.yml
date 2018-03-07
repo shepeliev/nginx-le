@@ -1,12 +1,10 @@
-version: '2'
+version: '3.3'
 services:
 
     nginx:
-        build: .
-        image: shepeliev/nginx-le:latest
+        image: shepeliev/nginx-le:swarm
         hostname: nginx
         restart: always
-        container_name: nginx
 
         logging:
           driver: json-file
@@ -16,8 +14,7 @@ services:
 
         volumes:
             - ./etc/ssl:/etc/nginx/ssl
-            - ./etc/service-example.conf:/etc/nginx/service.conf
-            # - ./etc/service-example-2.conf:/etc/nginx/service2.conf # more services, should be service*.conf
+            - ./etc/letsencrypt:/etc/letsencrypt
         ports:
             - "80:80"
             - "443:443"
@@ -27,3 +24,18 @@ services:
             - LETSENCRYPT=true
             - LE_EMAIL=name@example.com
             - LE_FQDN=www.example.com
+        configs:
+            - source: service_conf
+              target: /etc/nginx/conf.d/service.conf
+            # - source: service_conf_2
+            #   target: /etc/nginx/conf.d/service-2.conf
+
+configs:
+    service_conf:
+        file: ./etc/service-example.conf
+    # service_conf_2:
+    #     file: ./etc/service-example-2.conf
+
+volumes:
+    ssl:
+    letsencrypt:
