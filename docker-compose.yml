@@ -13,8 +13,8 @@ services:
               max-file: "5"
 
         volumes:
-            - ./etc/ssl:/etc/nginx/ssl
-            - ./etc/letsencrypt:/etc/letsencrypt
+            - ssl:/etc/nginx/ssl
+            - letsencrypt:/etc/letsencrypt
         ports:
             - "80:80"
             - "443:443"
